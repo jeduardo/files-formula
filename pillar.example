@@ -3,7 +3,6 @@ files:
     /etc/network/interfaces:
       user: root
       group: root
-      content: '# Dummy content'
       require:
         - file: /etc/network
     /srv/openvpn/down.sh:
