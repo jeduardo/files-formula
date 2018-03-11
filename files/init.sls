@@ -8,4 +8,3 @@ files-{{ name }}-{{ function }}:
     - {{ prop }}: {{ value }}
 {%- endfor %}
 {%- endfor %}
-{%- endfor %}
