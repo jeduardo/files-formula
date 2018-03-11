@@ -1,5 +1,11 @@
 files:
   managed:
+    /etc/network/interfaces:
+      user: root
+      group: root
+      content: '# Dummy content'
+      require:
+        - file: /etc/network
     /srv/openvpn/down.sh:
       user: root
       group: root
@@ -35,6 +41,8 @@ files:
       marker_end: '# END Managed by Salt - DO NOT CHANGE'
       append_if_not_found: True
       show_changes: True
+      require:
+        - file: /etc/network/interfaces
       content: |
         # OpenVPN network configuration
         auto br0
@@ -48,5 +56,7 @@ files:
     /srv/openvpn:
       user: root
       group: root
-
+    /etc/network:
+      user: root
+      group: root
 # vim: ft=yaml ts=2 sts=2 sw=2 et
