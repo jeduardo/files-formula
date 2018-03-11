@@ -5,14 +5,12 @@ files:
       - group: root
       - mode: 0700
       - contents: |
-        {% raw %}
-        #!/bin/sh
-        PATH=/sbin:/usr/sbin:/bin:/usr/bin
-        BR=$1
-        DEV=$2
-        brctl delif $BR $DEV
-        ip link set "$DEV" down
-        {% endraw %}
+          #!/bin/sh
+          PATH=/sbin:/usr/sbin:/bin:/usr/bin
+          BR=$1
+          DEV=$2
+          brctl delif $BR $DEV
+          ip link set "$DEV" down
       - require:
         - file: /srv/openvpn
     /srv/openvpn/up.sh:
@@ -20,14 +18,12 @@ files:
       - group: root
       - mode: 0700
       - contents: |
-        {% raw %}
-        #!/bin/sh
-        PATH=/sbin:/usr/sbin:/bin:/usr/bin
-        BR=$1
-        DEV=$2
-        brctl delif $BR $DEV
-        ip link set "$DEV" down
-        {% endraw %}
+          #!/bin/sh
+          PATH=/sbin:/usr/sbin:/bin:/usr/bin
+          BR=$1
+          DEV=$2
+          brctl delif $BR $DEV
+          ip link set "$DEV" down
       - require:
         - file: /srv/openvpn
   blockreplace:
@@ -35,17 +31,17 @@ files:
       - marker_start: '# START Managed by Salt - DO NOT CHANGE'
       - marker_end: '#END Managed by Salt - DO NOT CHANGE'
       - content: |
-        {% raw %}
-        # OpenVPN network configuration
-        auto br0
-        iface br0 inet static
-            address 10.200.1.1
-            netmask 255.255.255.0
-            network 10.200.1.0
-            broadcast 10.200.1.255
-            bridge_ports none
-        {% endraw %}
+          # OpenVPN network configuration
+          auto br0
+          iface br0 inet static
+              address 10.200.1.1
+              netmask 255.255.255.0
+              network 10.200.1.0
+              broadcast 10.200.1.255
+              bridge_ports none
   directory:
     /srv/openvpn:
       - user: root
       - group: root
+
+# vim: ft=yaml ts=2 sts=2 sw=2 et
