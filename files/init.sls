@@ -4,6 +4,7 @@
 {%- for name, args in managed.items() %}
 files-{{ name }}-{{ function }}:
   file.{{ function }}:
+    - name: {{ name }}
 {%- for prop, value in managed.items() %}
     - {{ prop }}: {{ value }}
 {%- endfor %}
