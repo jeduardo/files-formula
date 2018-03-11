@@ -1,47 +1,52 @@
 files:
   managed:
     /srv/openvpn/down.sh:
-      - user: root
-      - group: root
-      - mode: 0700
-      - contents: |
-          #!/bin/sh
-          PATH=/sbin:/usr/sbin:/bin:/usr/bin
-          BR=$1
-          DEV=$2
-          brctl delif $BR $DEV
-          ip link set "$DEV" down
-      - require:
+      user: root
+      group: root
+      mode: 0700
+      contents: |
+        #!/bin/sh
+        PATH=/sbin:/usr/sbin:/bin:/usr/bin
+        BR=$1
+        DEV=$2
+        brctl delif $BR $DEV
+        ip link set "$DEV" down
+      require:
         - file: /srv/openvpn
     /srv/openvpn/up.sh:
-      - user: root
-      - group: root
-      - mode: 0700
-      - contents: |
-          #!/bin/sh
-          PATH=/sbin:/usr/sbin:/bin:/usr/bin
-          BR=$1
-          DEV=$2
-          brctl delif $BR $DEV
-          ip link set "$DEV" down
-      - require:
+      user: root
+      group: root
+      mode: 0700
+      contents: |
+        #!/bin/sh
+        PATH=/sbin:/usr/sbin:/bin:/usr/bin
+        BR=$1
+        DEV=$2
+        MTU=$3
+        ip link set "$DEV" up promisc on mtu "$MTU"
+        if ! brctl show $BR | egrep -q "\W+$DEV$"; then
+            brctl addif $BR $DEV
+        fi
+      require:
         - file: /srv/openvpn
   blockreplace:
     /etc/network/interfaces:
-      - marker_start: '# START Managed by Salt - DO NOT CHANGE'
-      - marker_end: '#END Managed by Salt - DO NOT CHANGE'
-      - content: |
-          # OpenVPN network configuration
-          auto br0
-          iface br0 inet static
-              address 10.200.1.1
-              netmask 255.255.255.0
-              network 10.200.1.0
-              broadcast 10.200.1.255
-              bridge_ports none
+      marker_start: '# START Managed by Salt - DO NOT CHANGE'
+      marker_end: '# END Managed by Salt - DO NOT CHANGE'
+      append_if_not_found: True
+      show_changes: True
+      content: |
+        # OpenVPN network configuration
+        auto br0
+        iface br0 inet static
+            address 10.200.1.1
+            netmask 255.255.255.0
+            network 10.200.1.0
+            broadcast 10.200.1.255
+            bridge_ports none
   directory:
     /srv/openvpn:
-      - user: root
-      - group: root
+      user: root
+      group: root
 
 # vim: ft=yaml ts=2 sts=2 sw=2 et
