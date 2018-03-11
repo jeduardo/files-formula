@@ -42,7 +42,7 @@ files:
       append_if_not_found: True
       show_changes: True
       require:
-        - file: /etc/network/interfaces
+        - file: files-/etc/network/interfaces-managed
       content: |
         # OpenVPN network configuration
         auto br0
