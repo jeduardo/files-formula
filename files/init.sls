@@ -5,7 +5,7 @@
 files-{{ name }}-{{ function }}:
   file.{{ function }}:
     - name: {{ name }}
-{%- for prop, value in args.items() %}
+{%- for prop, value in args %}
     - {{ prop }}: {{ value }}
 {%- endfor %}
 {%- endfor %}
